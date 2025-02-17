@@ -61,6 +61,7 @@ const Main = () => {
         components[index].width = width || current_component.width;
         components[index].height = height || current_component.height;
       }
+
       if (current_component.name === "main_frame" && image) {
         components[index].image = image || current_component.image;
       }
@@ -113,7 +114,9 @@ const Main = () => {
   const resizeElement = (id, currentInfo) => {
     setCurrentComponent(currentInfo);
     let isMoving = true;
+
     const currentDiv = document.getElementById(id);
+
     const mouseMove = ({ movementX, movementY }) => {
       const getStyle = window.getComputedStyle(currentDiv);
       const width = parseInt(getStyle.width);
@@ -123,12 +126,13 @@ const Main = () => {
         currentDiv.style.height = `${height + movementY}px`;
       }
     };
+
     const mouseUp = (e) => {
       let isMoving = false;
       window.removeEventListener("mousemove", mouseMove);
       window.removeEventListener("mouseup", mouseUp);
-      setLeft(parseInt(currentDiv.style.left));
-      setTop(parseInt(currentDiv.style.top));
+      setWidth(parseInt(currentDiv.style.width));
+      setHeight(parseInt(currentDiv.style.height));
     };
 
     window.addEventListener("mousemove", mouseMove);
@@ -225,7 +229,7 @@ const Main = () => {
             <span className="text-2xl">
               <FaTextHeight />
             </span>
-            <span className="text-xs font-medium">Thêm văn bản</span>
+            <span className="text-xs font-medium">Văn bản</span>
           </div>
 
           <div
@@ -237,7 +241,7 @@ const Main = () => {
             <span className="text-2xl">
               <FaFolderOpen />
             </span>
-            <span className="text-xs font-medium">Dự án của bạn</span>
+            <span className="text-xs font-medium">Dư án của bạn</span>
           </div>
 
           <div
