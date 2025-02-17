@@ -20,6 +20,10 @@ const Main = () => {
   const [color, setColor] = useState("");
   const [image, setImage] = useState("");
   const [rotate, setRotate] = useState(0);
+  const [left, setLeft] = useState("");
+  const [top, setTop] = useState("");
+  const [width, setWidth] = useState("");
+  const [height, setHeight] = useState("");
 
   const [show, setShow] = useState({
     status: true,
@@ -53,22 +57,82 @@ const Main = () => {
 
       const temp = components.filter((c) => c.id !== current_component.id);
 
+      if (current_component.name !== "text") {
+        components[index].width = width || current_component.width;
+        components[index].height = height || current_component.height;
+      }
       if (current_component.name === "main_frame" && image) {
         components[index].image = image || current_component.image;
+      }
+
+      if (current_component.name !== "main_frame") {
+        components[index].left = left || current_component.left;
+        components[index].top = top || current_component.top;
       }
 
       components[index].color = color || current_component.color;
 
       setComponents([...temp, components[index]]);
-    }
-  }, [color, image]);
 
-  const moveElement = () => {
-    console.log("move element");
+      setColor("");
+      setLeft("");
+      setTop("");
+      setWidth("");
+      setHeight("");
+    }
+  }, [color, image, left, top, width, height]);
+
+  const moveElement = (id, currentInfo) => {
+    setCurrentComponent(currentInfo);
+    let isMoving = true;
+
+    const currentDiv = document.getElementById(id);
+
+    const mouseMove = ({ movementX, movementY }) => {
+      const getStyle = window.getComputedStyle(currentDiv);
+      const left = parseInt(getStyle.left);
+      const top = parseInt(getStyle.top);
+      if (isMoving) {
+        currentDiv.style.left = `${left + movementX}px`;
+        currentDiv.style.top = `${top + movementY}px`;
+      }
+    };
+
+    const mouseUp = (e) => {
+      let isMoving = false;
+      window.removeEventListener("mousemove", mouseMove);
+      window.removeEventListener("mouseup", mouseUp);
+      setLeft(parseInt(currentDiv.style.left));
+      setTop(parseInt(currentDiv.style.top));
+    };
+
+    window.addEventListener("mousemove", mouseMove);
+    window.addEventListener("mouseup", mouseUp);
   };
 
-  const resizeElement = () => {
-    console.log("resize element");
+  const resizeElement = (id, currentInfo) => {
+    setCurrentComponent(currentInfo);
+    let isMoving = true;
+    const currentDiv = document.getElementById(id);
+    const mouseMove = ({ movementX, movementY }) => {
+      const getStyle = window.getComputedStyle(currentDiv);
+      const width = parseInt(getStyle.width);
+      const height = parseInt(getStyle.height);
+      if (isMoving) {
+        currentDiv.style.width = `${width + movementX}px`;
+        currentDiv.style.height = `${height + movementY}px`;
+      }
+    };
+    const mouseUp = (e) => {
+      let isMoving = false;
+      window.removeEventListener("mousemove", mouseMove);
+      window.removeEventListener("mouseup", mouseUp);
+      setLeft(parseInt(currentDiv.style.left));
+      setTop(parseInt(currentDiv.style.top));
+    };
+
+    window.addEventListener("mousemove", mouseMove);
+    window.addEventListener("mouseup", mouseUp);
   };
 
   const rotateElement = () => {
@@ -161,7 +225,7 @@ const Main = () => {
             <span className="text-2xl">
               <FaTextHeight />
             </span>
-            <span className="text-xs font-medium">Text</span>
+            <span className="text-xs font-medium">Thêm văn bản</span>
           </div>
 
           <div
@@ -173,7 +237,7 @@ const Main = () => {
             <span className="text-2xl">
               <FaFolderOpen />
             </span>
-            <span className="text-xs font-medium">Dư án</span>
+            <span className="text-xs font-medium">Dự án của bạn</span>
           </div>
 
           <div
@@ -240,7 +304,7 @@ const Main = () => {
               <div>
                 <div className="grid grid-cols-1 gap-2">
                   <div className="bg-[#3c3c3d] cursor-pointer font-bold p-3 text-white text-xl rounded-sm">
-                    <h2>Thêm văn bản </h2>
+                    <h2>Add A Text </h2>
                   </div>
                 </div>
               </div>
@@ -257,14 +321,14 @@ const Main = () => {
                   {[1, 2, 3, 4, 5, 6].map((img, i) => (
                     <div
                       onClick={() =>
-                        setImage("http://localhost:5173/Pixora.png")
+                        setImage("http://localhost:5173/canva.png")
                       }
                       key={i}
                       className="w-full h-[90px] overflow-hidden rounded-sm cursor-pointer"
                     >
                       <img
                         className="w-full h-full object-fill"
-                        src="http://localhost:5173/Pixora.png"
+                        src="http://localhost:5173/canva.png"
                         alt=""
                       />
                     </div>
@@ -303,7 +367,7 @@ const Main = () => {
               <div className="h-full w-[250px] text-gray-300 bg-[#252627] px-3 py-2">
                 <div className="flex gap-6 flex-col items-start h-full px-3 justify-start">
                   <div className="flex gap-4 justify-start items-start mt-4">
-                    <span>Màu :</span>
+                    <span>Color :</span>
                     <label
                       className="w-[30px] h-[30px] cursor-pointer rounded-sm"
                       style={{
@@ -329,7 +393,7 @@ const Main = () => {
                         className="p-[6px] bg-slate-600 text-white cursor-pointer"
                         onClick={remove_background}
                       >
-                        Xoá Background
+                        Remove Background
                       </div>
                     )}
                 </div>

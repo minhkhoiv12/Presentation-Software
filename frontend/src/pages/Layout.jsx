@@ -82,9 +82,9 @@ const Layout = () => {
             />
             <div className="flex justify-center flex-col items-start">
               <span className="text-[#e0dddd] font-bold text-md">
-                Kazi Ariyan
+                Minh Khôi
               </span>
-              <span className="text-[#e0dddd] text-sm">Free</span>
+              <span className="text-[#e0dddd] text-sm">Miễn phí</span>
             </div>
           </div>
 
@@ -99,7 +99,7 @@ const Layout = () => {
                 <span className="text-xl">
                   <FaHome />
                 </span>
-                <span className="font-medium">Home</span>
+                <span className="font-medium">Trang chủ</span>
               </Link>
             </li>
 
@@ -113,7 +113,7 @@ const Layout = () => {
                 <span className="text-xl">
                   <FaFolderOpen />
                 </span>
-                <span className="font-medium">Projects</span>
+                <span className="font-medium">Dư án</span>
               </Link>
             </li>
 
@@ -127,7 +127,7 @@ const Layout = () => {
                 <span className="text-xl">
                   <LuLayoutTemplate />
                 </span>
-                <span className="font-medium">Templates</span>
+                <span className="font-medium">Mẫu template</span>
               </Link>
             </li>
           </ul>
