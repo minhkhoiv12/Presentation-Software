@@ -19,6 +19,7 @@ const Main = () => {
   const [current_component, setCurrentComponent] = useState("");
   const [color, setColor] = useState("");
   const [image, setImage] = useState("");
+  const [rotate, setRotate] = useState(0);
 
   const [show, setShow] = useState({
     status: true,
@@ -74,8 +75,10 @@ const Main = () => {
     console.log("rotate element");
   };
 
-  const removeComponent = () => {
-    console.log("removeComponent");
+  const removeComponent = (id) => {
+    const temp = components.filter((c) => c.id !== id);
+    setCurrentComponent("");
+    setComponents(temp);
   };
 
   const remove_background = () => {
@@ -84,6 +87,27 @@ const Main = () => {
     com.image = "";
     setImage("");
     setComponents([...temp, com]);
+  };
+
+  const createShape = (name, type) => {
+    const style = {
+      id: Date.now(),
+      name: name,
+      type,
+      left: 10,
+      top: 10,
+      opacity: 1,
+      width: 200,
+      height: 150,
+      rotate,
+      z_index: 2,
+      color: "#3c3c3d",
+      setCurrentComponent: (a) => setCurrentComponent(a),
+      moveElement,
+      resizeElement,
+      rotateElement,
+    };
+    setComponents([...components, style]);
   };
 
   return (
@@ -101,7 +125,7 @@ const Main = () => {
             <span className="text-2xl">
               <LuLayoutTemplate />
             </span>
-            <span className="text-xs font-medium">Design</span>
+            <span className="text-xs font-medium">Thiết kế</span>
           </div>
 
           <div
@@ -125,7 +149,7 @@ const Main = () => {
             <span className="text-2xl">
               <FaCloudUploadAlt />
             </span>
-            <span className="text-xs font-medium">Upload</span>
+            <span className="text-xs font-medium">Tải lên</span>
           </div>
 
           <div
@@ -149,7 +173,7 @@ const Main = () => {
             <span className="text-2xl">
               <FaFolderOpen />
             </span>
-            <span className="text-xs font-medium">Project</span>
+            <span className="text-xs font-medium">Dư án</span>
           </div>
 
           <div
@@ -161,7 +185,7 @@ const Main = () => {
             <span className="text-2xl">
               <BsImages />
             </span>
-            <span className="text-xs font-medium">Images</span>
+            <span className="text-xs font-medium">Hình ảnh</span>
           </div>
 
           <div
@@ -196,10 +220,17 @@ const Main = () => {
             )}
             {state === "shape" && (
               <div className="grid grid-cols-3 gap-2">
-                <div className="h-[90px] bg-[#3c3c3d] cursor-pointer"></div>
-                <div className="h-[90px] bg-[#3c3c3d] cursor-pointer rounded-full"></div>
                 <div
-                  style={{ clipPath: "polygon(50% 0, 100% 100%, 0 100%" }}
+                  onClick={() => createShape("shape", "rect")}
+                  className="h-[90px] bg-[#3c3c3d] cursor-pointer"
+                ></div>
+                <div
+                  onClick={() => createShape("shape", "circle")}
+                  className="h-[90px] bg-[#3c3c3d] cursor-pointer rounded-full"
+                ></div>
+                <div
+                  onClick={() => createShape("shape", "trangle")}
+                  style={{ clipPath: "polygon(50% 0, 100% 100%, 0 100%)" }}
                   className="h-[90px] bg-[#3c3c3d] cursor-pointer  "
                 ></div>
               </div>
@@ -209,7 +240,7 @@ const Main = () => {
               <div>
                 <div className="grid grid-cols-1 gap-2">
                   <div className="bg-[#3c3c3d] cursor-pointer font-bold p-3 text-white text-xl rounded-sm">
-                    <h2>Add A Text </h2>
+                    <h2>Thêm văn bản </h2>
                   </div>
                 </div>
               </div>
@@ -226,14 +257,14 @@ const Main = () => {
                   {[1, 2, 3, 4, 5, 6].map((img, i) => (
                     <div
                       onClick={() =>
-                        setImage("http://localhost:5173/canva.png")
+                        setImage("http://localhost:5173/Pixora.png")
                       }
                       key={i}
                       className="w-full h-[90px] overflow-hidden rounded-sm cursor-pointer"
                     >
                       <img
                         className="w-full h-full object-fill"
-                        src="http://localhost:5173/canva.png"
+                        src="http://localhost:5173/Pixora.png"
                         alt=""
                       />
                     </div>
@@ -272,7 +303,7 @@ const Main = () => {
               <div className="h-full w-[250px] text-gray-300 bg-[#252627] px-3 py-2">
                 <div className="flex gap-6 flex-col items-start h-full px-3 justify-start">
                   <div className="flex gap-4 justify-start items-start mt-4">
-                    <span>Color :</span>
+                    <span>Màu :</span>
                     <label
                       className="w-[30px] h-[30px] cursor-pointer rounded-sm"
                       style={{
@@ -298,7 +329,7 @@ const Main = () => {
                         className="p-[6px] bg-slate-600 text-white cursor-pointer"
                         onClick={remove_background}
                       >
-                        Remove Background
+                        Xoá Background
                       </div>
                     )}
                 </div>
