@@ -6,7 +6,7 @@ const Header = () => {
       <div className="flex justify-between px-10 items-center text-gray-400 h-full">
         <Link to="/">
           <img
-            src="https://res.cloudinary.com/dd7fcqtnn/image/upload/v1739705997/img_oddaeq.png"
+            src="https://static.canva.com/web/images/12487a1e0770d29351bd4ce4f87ec8fe.svg"
             alt=""
           />
         </Link>

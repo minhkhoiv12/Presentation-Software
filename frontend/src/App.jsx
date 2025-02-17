@@ -6,6 +6,7 @@ import Templates from "./components/Templates";
 import Projects from "./components/Projects";
 import CreateDesign from "./components/CreateDesign";
 import Main from "./pages/Main";
+
 const router = createBrowserRouter([
   {
     path: "/",

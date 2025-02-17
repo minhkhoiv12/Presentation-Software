@@ -1,9 +1,13 @@
 import React from "react";
-const CreateComponent = ({ info, current_component }) => {
+
+const CreateComponent = ({ info, current_component, removeComponent }) => {
+  console.log(info);
   let html = "";
+
   if (info.name === "main_frame") {
     html = (
       <div
+        onClick={() => info.setCurrentComponent(info)}
         className="hover:border-[2px] hover:border-indigo-500 shadow-md"
         style={{
           width: info.width + "px",
@@ -18,7 +22,7 @@ const CreateComponent = ({ info, current_component }) => {
       </div>
     );
   }
+
   return html;
 };
-
 export default CreateComponent;
