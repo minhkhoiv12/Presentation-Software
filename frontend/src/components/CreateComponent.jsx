@@ -3,7 +3,7 @@ import { FaTrashAlt } from "react-icons/fa";
 import Element from "./Element";
 
 const CreateComponent = ({ info, current_component, removeComponent }) => {
-  //console.log(info);
+  //  console.log(info)
   const randValue = Math.floor(Math.random() * 100);
 
   let html = "";
@@ -129,6 +129,42 @@ const CreateComponent = ({ info, current_component, removeComponent }) => {
     );
   }
 
+  if (info.name === "text") {
+    html = (
+      <div
+        id={randValue}
+        onClick={() => info.setCurrentComponent(info)}
+        style={{
+          left: info.left + "px",
+          top: info.top + "px",
+          z_index: info.z_index,
+          transform: info.rotate ? `rotate(${info.rotate}deg)` : "rotate(0deg)",
+
+          padding: info.padding + "px",
+          color: info.color,
+          opacity: info.opacity,
+        }}
+        className="absolute group hover:border-[2px] hover:border-indigo-500"
+      >
+        <Element id={randValue} info={info} exId="" />
+        <h2
+          style={{ fontSize: info.font + "px", fontWeight: info.weight }}
+          className="w-full h-full"
+        >
+          {" "}
+          {info.title}{" "}
+        </h2>
+        {current_component.id === info.id && (
+          <div
+            onClick={() => removeComponent(info.id)}
+            className="px-3 py-2 bg-white absolute top-0 hidden group-hover:block cursor-pointer rounded-md"
+          >
+            <FaTrashAlt />
+          </div>
+        )}
+      </div>
+    );
+  }
   return html;
 };
 export default CreateComponent;
