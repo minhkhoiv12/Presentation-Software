@@ -60,6 +60,7 @@ const Main = () => {
       if (current_component.name !== "text") {
         components[index].width = width || current_component.width;
         components[index].height = height || current_component.height;
+        components[index].rotate = rotate || current_component.rotate;
       }
 
       if (current_component.name === "main_frame" && image) {
@@ -80,6 +81,7 @@ const Main = () => {
       setTop("");
       setWidth("");
       setHeight("");
+      setRotate(0);
     }
   }, [color, image, left, top, width, height]);
 
@@ -139,8 +141,43 @@ const Main = () => {
     window.addEventListener("mouseup", mouseUp);
   };
 
-  const rotateElement = () => {
-    console.log("rotate element");
+  const rotateElement = (id, currentInfo) => {
+    setCurrentComponent("");
+    setCurrentComponent(currentInfo);
+    const target = document.getElementById(id);
+
+    const mouseMove = ({ movementX, movementY }) => {
+      const getStyle = window.getComputedStyle(target);
+      const trans = getStyle.transform;
+
+      const values = trans.split("(")[1].split(")")[0].split(",");
+
+      const angle = Math.round(
+        Math.atan2(values[1], values[0]) * (180 / Math.PI)
+      );
+      let deg = angle < 0 ? angle + 360 : angle;
+      if (movementX) {
+        deg = deg + movementX;
+      }
+      target.style.transform = `rotate(${deg}deg)`;
+    };
+
+    const mouseUp = (e) => {
+      window.removeEventListener("mousemove", mouseMove);
+      window.removeEventListener("mouseup", mouseUp);
+      const getStyle = window.getComputedStyle(target);
+      const trans = getStyle.transform;
+
+      const values = trans.split("(")[1].split(")")[0].split(",");
+      const angle = Math.round(
+        Math.atan2(values[1], values[0]) * (180 / Math.PI)
+      );
+
+      let deg = angle < 0 ? angle + 360 : angle;
+      setRotate(deg);
+    };
+    window.addEventListener("mousemove", mouseMove);
+    window.addEventListener("mouseup", mouseUp);
   };
 
   const removeComponent = (id) => {
@@ -308,7 +345,7 @@ const Main = () => {
               <div>
                 <div className="grid grid-cols-1 gap-2">
                   <div className="bg-[#3c3c3d] cursor-pointer font-bold p-3 text-white text-xl rounded-sm">
-                    <h2>Add A Text </h2>
+                    <h2>Thêm văn bản </h2>
                   </div>
                 </div>
               </div>
