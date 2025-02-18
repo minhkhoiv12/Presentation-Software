@@ -32,6 +32,8 @@ const Main = () => {
   const [opacity, setOpacity] = useState("");
   const [zIndex, setzIndex] = useState("");
 
+  const [radius, setRadius] = useState(0);
+
   const [show, setShow] = useState({
     status: true,
     name: "",
@@ -77,6 +79,9 @@ const Main = () => {
         components[index].title = text || current_component.title;
       }
 
+      if (current_component.name === "image") {
+        components[index].radius = radius || current_component.radius;
+      }
       if (current_component.name === "main_frame" && image) {
         components[index].image = image || current_component.image;
       }
@@ -115,6 +120,7 @@ const Main = () => {
     font,
     weight,
     text,
+    radius,
   ]);
 
   const moveElement = (id, currentInfo) => {
@@ -278,6 +284,31 @@ const Main = () => {
     setComponents([...components, style]);
   };
 
+  const add_image = (img) => {
+    setCurrentComponent("");
+    const style = {
+      id: Date.now(),
+      name: "image",
+      type: "image",
+      left: 10,
+      top: 10,
+      opacity: 1,
+      width: 200,
+      height: 150,
+      rotate,
+      z_index: 2,
+      radius: 0,
+      image: img,
+      setCurrentComponent: (a) => setCurrentComponent(a),
+      moveElement,
+      resizeElement,
+      rotateElement,
+    };
+
+    setCurrentComponent(style);
+    setComponents([...components, style]);
+  };
+
   return (
     <div className="min-w-screen h-screen bg-black">
       <Header />
@@ -411,7 +442,7 @@ const Main = () => {
                     onClick={() => add_text("text", "title")}
                     className="bg-[#3c3c3d] cursor-pointer font-bold p-3 text-white text-xl rounded-sm"
                   >
-                    <h2>Thêm văn bản </h2>
+                    <h2>Add A Text </h2>
                   </div>
                 </div>
               </div>
@@ -419,7 +450,7 @@ const Main = () => {
             {state === "project" && <Projects />}
             {state === "initImage" && (
               <div className="h-[88vh] overflow-x-auto flex justify-start items-start scrollbar-hide">
-                <Image />
+                <Image add_image={add_image} />
               </div>
             )}
             {state === "background" && (
@@ -530,6 +561,21 @@ const Main = () => {
                         />
                       </div>
 
+                      {current_component.name === "image" && (
+                        <div className="flex gap-1 justify-start items-start">
+                          <span className="text-md w-[70px]">Bo góc</span>
+                          <input
+                            onChange={(e) =>
+                              setRadius(parseInt(e.target.value))
+                            }
+                            className="w-[70px] border border-gray-700 bg-transparent outline-none px-2 rounded-md"
+                            type="number"
+                            step={1}
+                            value={current_component.radius}
+                          />
+                        </div>
+                      )}
+
                       {current_component.name === "text" && (
                         <>
                           <div className="flex gap-1 justify-start items-start">
@@ -564,7 +610,7 @@ const Main = () => {
 
                           <div className="flex gap-1 justify-start items-start">
                             <span className="text-md w-[70px]">
-                              Độ đậm của chữ :{" "}
+                              độ đậm của chữ :{" "}
                             </span>
                             <input
                               onChange={(e) =>
@@ -578,6 +624,7 @@ const Main = () => {
                               value={current_component.weight}
                             />
                           </div>
+
                           <div className="flex gap-2 flex-col justify-start items-start">
                             <input
                               onChange={(e) =>
