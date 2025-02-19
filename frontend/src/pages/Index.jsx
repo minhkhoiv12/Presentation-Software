@@ -28,8 +28,8 @@ const Index = () => {
     try {
       setLoader(true);
       const { data } = await api.post("/api/user-register", state);
+
       setLoader(false);
-      console.log(data);
       localStorage.setItem("canva_token", data.token);
       setState({
         name: "",
@@ -44,6 +44,26 @@ const Index = () => {
   };
   //end method
 
+  const user_login = async (e) => {
+    e.preventDefault();
+    try {
+      setLoader(true);
+      const { data } = await api.post("/api/user-login", state);
+      setLoader(false);
+
+      localStorage.setItem("canva_token", data.token);
+      setState({
+        email: "",
+        password: "",
+      });
+
+      window.location.href = "/";
+    } catch (error) {
+      setLoader(false);
+      console.log(error.response);
+    }
+  };
+  //end method
   return (
     <div className="bg-[#18191b] min-h-screen w-full ">
       <div
@@ -59,11 +79,11 @@ const Index = () => {
             <RxCross2 />
           </div>
           <h2 className="text-white pb-4 text-center text-xl">
-            Login and Sign up in seconds
+            Đăng nhập và Đăng ký trong vài giây
           </h2>
 
           {type === "signin" && (
-            <form>
+            <form onSubmit={user_login}>
               <div className="flex flex-col gap-3 mb-3 text-white">
                 <label htmlFor="email">Email</label>
                 <input
@@ -102,13 +122,13 @@ const Index = () => {
           {type === "signup" && (
             <form onSubmit={user_register}>
               <div className="flex flex-col gap-3 mb-3 text-white">
-                <label htmlFor="name">Name</label>
+                <label htmlFor="name">Tên</label>
                 <input
                   onChange={inputHandle}
                   type="text"
                   name="name"
                   id="name"
-                  placeholder="Name"
+                  placeholder="Họ tên"
                   value={state.name}
                   className="px-3 py-2 rounded-md border outline-none border-[#5c5c5e] focus:border-purple-500 bg-transparent"
                 />
@@ -144,7 +164,7 @@ const Index = () => {
                   disabled={loader}
                   className="px-3 py-2 rounded-md bg-purple-500 w-full outline-none hover:bg-purple-600 text-white"
                 >
-                  {loader ? "loading.." : "Sign Up"}
+                  {loader ? "loading.." : "Đăng ký"}
                 </button>
               </div>
             </form>
@@ -194,8 +214,7 @@ const Index = () => {
             Hôm nay bạn sẽ thiết kế gì?
           </h2>
           <span className="text-[#aca9a9] text-2xl font-medium">
-            Pixora sẽ giúp bạn dễ dàng tạo và chia sẻ các thiết kế chuyên
-            nghiệp.
+            Pixora makes it easy to create and share professional designs.
           </span>
           <button
             onClick={() => {
@@ -204,11 +223,12 @@ const Index = () => {
             }}
             className="py-2 w-[200px] text-center bg-purple-700 text-white transition-all hover:bg-purple-500 rounded-[5px] font-medium"
           >
-            SingUp for Free
+            Đăng ký miễn phí
           </button>
         </div>
       </div>
     </div>
   );
 };
+
 export default Index;
