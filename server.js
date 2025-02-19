@@ -24,7 +24,7 @@ if (process.env.NODE_ENV === "local") {
 }
 
 // app.use('/api', require('./routes/designRoutes'))
-// app.use('/api', require('./routes/authRoutes'))
+app.use("/api", require("./routes/authRoutes"));
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "./frontend/dist")));

@@ -2,16 +2,18 @@ import React, { useState } from "react";
 import { RxCross2 } from "react-icons/rx";
 import { BiLogoGmail } from "react-icons/bi";
 import { FaFacebook } from "react-icons/fa";
+import api from "../utils/api";
 
 const Index = () => {
   const [type, setType] = useState("");
   const [show, setShow] = useState(false);
+  const [loader, setLoader] = useState(false);
+
   const [state, setState] = useState({
     name: "",
     email: "",
     password: "",
   });
-  console.log(state);
 
   const inputHandle = (e) => {
     setState({
@@ -19,6 +21,28 @@ const Index = () => {
       [e.target.name]: e.target.value,
     });
   };
+
+  const user_register = async (e) => {
+    e.preventDefault();
+
+    try {
+      setLoader(true);
+      const { data } = await api.post("/api/user-register", state);
+      setLoader(false);
+      console.log(data);
+      localStorage.setItem("canva_token", data.token);
+      setState({
+        name: "",
+        email: "",
+        password: "",
+      });
+      window.location.href = "/";
+    } catch (error) {
+      setLoader(false);
+      console.log(error.response);
+    }
+  };
+  //end method
 
   return (
     <div className="bg-[#18191b] min-h-screen w-full ">
@@ -35,7 +59,7 @@ const Index = () => {
             <RxCross2 />
           </div>
           <h2 className="text-white pb-4 text-center text-xl">
-            Đăng nhập và đăng ký
+            Login and Sign up in seconds
           </h2>
 
           {type === "signin" && (
@@ -66,14 +90,17 @@ const Index = () => {
                 />
               </div>
               <div>
-                <button className="px-3 py-2 rounded-md bg-purple-500 w-full outline-none hover:bg-purple-600 text-white">
-                  Singin
+                <button
+                  disabled={loader}
+                  className="px-3 py-2 rounded-md bg-purple-500 w-full outline-none hover:bg-purple-600 text-white"
+                >
+                  {loader ? "loading.." : "Sign In"}
                 </button>
               </div>
             </form>
           )}
           {type === "signup" && (
-            <form>
+            <form onSubmit={user_register}>
               <div className="flex flex-col gap-3 mb-3 text-white">
                 <label htmlFor="name">Name</label>
                 <input
@@ -86,6 +113,7 @@ const Index = () => {
                   className="px-3 py-2 rounded-md border outline-none border-[#5c5c5e] focus:border-purple-500 bg-transparent"
                 />
               </div>
+
               <div className="flex flex-col gap-3 mb-3 text-white">
                 <label htmlFor="email">Email</label>
                 <input
@@ -98,6 +126,7 @@ const Index = () => {
                   className="px-3 py-2 rounded-md border outline-none border-[#5c5c5e] focus:border-purple-500 bg-transparent"
                 />
               </div>
+
               <div className="flex flex-col gap-3 mb-3 text-white">
                 <label htmlFor="password">Password</label>
                 <input
@@ -111,8 +140,11 @@ const Index = () => {
                 />
               </div>
               <div>
-                <button className="px-3 py-2 rounded-md bg-purple-500 w-full outline-none hover:bg-purple-600 text-white">
-                  Sign Up
+                <button
+                  disabled={loader}
+                  className="px-3 py-2 rounded-md bg-purple-500 w-full outline-none hover:bg-purple-600 text-white"
+                >
+                  {loader ? "loading.." : "Sign Up"}
                 </button>
               </div>
             </form>
@@ -120,13 +152,13 @@ const Index = () => {
         </div>
       </div>
 
-      <div className="bg-[#ccced0] shadow-md">
+      <div className="bg-[#212223] shadow-md">
         <div className="w-[93%] m-auto py-3">
           <div className="flex justify-between items-center">
-            <div className="w-[80px] h-[80px]">
+            <div className="w-[80px] h-[48px]">
               <img
                 className="w-full h-full"
-                src="https://res.cloudinary.com/dd7fcqtnn/image/upload/v1739705997/img_oddaeq.png"
+                src="https://static.canva.com/web/images/12487a1e0770d29351bd4ce4f87ec8fe.svg"
                 alt=""
               />
             </div>
@@ -139,7 +171,7 @@ const Index = () => {
                 }}
                 className="py-2 w-[80px] text-center bg-teal-700 text-white transition-all hover:bg-teal-500 rounded-[5px] font-medium"
               >
-                SingIn
+                Đăng nhập
               </button>
 
               <button
@@ -149,7 +181,7 @@ const Index = () => {
                 }}
                 className="py-2 w-[80px] text-center bg-purple-700 text-white transition-all hover:bg-purple-500 rounded-[5px] font-medium"
               >
-                SingUp
+                Đăng ký
               </button>
             </div>
           </div>
@@ -159,10 +191,11 @@ const Index = () => {
       <div className="w-full h-full justify-center items-center p-4">
         <div className="py-[170px] flex justify-center items-center flex-col gap-6">
           <h2 className="text-5xl text-[#c7c5c5] font-bold">
-            What you will design today?
+            Hôm nay bạn sẽ thiết kế gì?
           </h2>
           <span className="text-[#aca9a9] text-2xl font-medium">
-            Canva makes it easy to create and share professional designs.
+            Pixora sẽ giúp bạn dễ dàng tạo và chia sẻ các thiết kế chuyên
+            nghiệp.
           </span>
           <button
             onClick={() => {
