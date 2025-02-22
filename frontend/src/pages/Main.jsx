@@ -13,8 +13,12 @@ import MyImages from "../components/MyImages";
 import Projects from "../components/Projects";
 import Image from "../components/Image";
 import CreateComponent from "../components/CreateComponent";
+import api from "../utils/api";
+import { useParams } from "react-router-dom";
 
 const Main = () => {
+  const { design_id } = useParams();
+
   const [state, setState] = useState("");
   const [current_component, setCurrentComponent] = useState("");
   const [color, setColor] = useState("");
@@ -82,6 +86,7 @@ const Main = () => {
       if (current_component.name === "image") {
         components[index].radius = radius || current_component.radius;
       }
+
       if (current_component.name === "main_frame" && image) {
         components[index].image = image || current_component.image;
       }
@@ -309,9 +314,31 @@ const Main = () => {
     setComponents([...components, style]);
   };
 
+  useEffect(() => {
+    const get_design = async () => {
+      try {
+        const { data } = await api.get(`/api/user-design/${design_id}`);
+        console.log(data);
+        const { design } = data;
+
+        for (let i = 0; i < design.length; i++) {
+          design[i].setCurrentComponent = (a) => setCurrentComponent(a);
+          design[i].moveElement = moveElement;
+          design[i].resizeElement = resizeElement;
+          design[i].rotateElement = rotateElement;
+          design[i].remove_background = remove_background;
+        }
+        setComponents(design);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    get_design();
+  }, [design_id]);
+
   return (
     <div className="min-w-screen h-screen bg-black">
-      <Header />
+      <Header components={components} design_id={design_id} />
 
       <div className="flex h-[calc(100%-60px)] w-screen">
         <div className="w-[80px] bg-[#18191B] z-50 h-full text-gray-400 overflow-y-auto">
@@ -324,7 +351,7 @@ const Main = () => {
             <span className="text-2xl">
               <LuLayoutTemplate />
             </span>
-            <span className="text-xs font-medium">Bản thiết kế</span>
+            <span className="text-xs font-medium">Thiết kế</span>
           </div>
 
           <div
@@ -336,7 +363,7 @@ const Main = () => {
             <span className="text-2xl">
               <FaShapes />
             </span>
-            <span className="text-xs font-medium">Shapes</span>
+            <span className="text-xs font-medium">Hình dạng</span>
           </div>
 
           <div
@@ -434,7 +461,7 @@ const Main = () => {
                 ></div>
               </div>
             )}
-            {state === "image" && <MyImages />}
+            {state === "image" && <MyImages add_image={add_image} />}
             {state === "text" && (
               <div>
                 <div className="grid grid-cols-1 gap-2">
@@ -442,7 +469,7 @@ const Main = () => {
                     onClick={() => add_text("text", "title")}
                     className="bg-[#3c3c3d] cursor-pointer font-bold p-3 text-white text-xl rounded-sm"
                   >
-                    <h2>Add A Text </h2>
+                    <h2>Thêm văn bản </h2>
                   </div>
                 </div>
               </div>
@@ -538,7 +565,7 @@ const Main = () => {
                   {current_component.name !== "main_frame" && (
                     <div className="flex gap-6 flex-col">
                       <div className="flex gap-1 justify-start items-start">
-                        <span className="text-md w-[70px]">Độ mờ</span>
+                        <span className="text-md w-[70px]">độ mờ</span>
                         <input
                           onChange={opacityHandle}
                           className="w-[70px] border border-gray-700 bg-transparent outline-none px-2 rounded-md"
@@ -563,7 +590,7 @@ const Main = () => {
 
                       {current_component.name === "image" && (
                         <div className="flex gap-1 justify-start items-start">
-                          <span className="text-md w-[70px]">Bo góc</span>
+                          <span className="text-md w-[70px]">bo góc</span>
                           <input
                             onChange={(e) =>
                               setRadius(parseInt(e.target.value))
@@ -579,9 +606,7 @@ const Main = () => {
                       {current_component.name === "text" && (
                         <>
                           <div className="flex gap-1 justify-start items-start">
-                            <span className="text-md w-[70px]">
-                              Khoảng đệm :{" "}
-                            </span>
+                            <span className="text-md w-[70px]">đệm : </span>
                             <input
                               onChange={(e) =>
                                 setPadding(parseInt(e.target.value))
@@ -594,9 +619,7 @@ const Main = () => {
                           </div>
 
                           <div className="flex gap-1 justify-start items-start">
-                            <span className="text-md w-[70px]">
-                              Kích thước của chữ
-                            </span>
+                            <span className="text-md w-[70px]">cỡ chữ</span>
                             <input
                               onChange={(e) =>
                                 setFont(parseInt(e.target.value))
