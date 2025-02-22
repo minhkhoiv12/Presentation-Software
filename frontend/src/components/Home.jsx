@@ -55,49 +55,47 @@ const Home = () => {
           onClick={() => setShow(!show)}
           className="px-4 py-2 text-[15px] overflow-hidden text-center bg-[#32769ead] text-white rounded-[3px] font-medium hover:bg-[#1e830f] absolute top-3 right-3"
         >
-          Custom Size
+          Kích thước tùy chỉnh
         </button>
 
         <form
+          onSubmit={create}
           className={`absolute top-16 right-3 gap-3 bg-[#252627] w-[250px] p-4 text-white ${
             show ? "visible opacity-100" : "invisible opacity-50"
           } transition-all duration-500`}
         >
           <div className="grid grid-cols-2 pb-4 gap-3">
             <div className="flex gap-2 justify-center items-start flex-col">
-              <label htmlFor="width">Width</label>
+              <label htmlFor="width">Chiều rộng</label>
               <input
                 onChange={inputHandle}
                 type="number"
-                name="width"
+                name="chiều rộng"
                 id="width"
                 className="w-full outline-none px-2 py-[4px] bg-[#1b1a1a] border border-[#404040] rounded-md"
               />
             </div>
 
             <div className="flex gap-2 justify-center items-start flex-col">
-              <label htmlFor="height">Height</label>
+              <label htmlFor="height">Chiều cao</label>
               <input
                 onChange={inputHandle}
                 type="number"
-                name="height"
+                name="chiều cao"
                 id="height"
                 className="w-full outline-none px-2 py-[4px] bg-[#1b1a1a] border border-[#404040] rounded-md"
               />
             </div>
           </div>
 
-          <button
-            onClick={create}
-            className="px-4 py-2 text-[15px] overflow-hidden text-center bg-[#32769ead] text-white rounded-[3px] font-medium hover:bg-[#1e830f] w-full"
-          >
-            Create New Design
+          <button className="px-4 py-2 text-[15px] overflow-hidden text-center bg-[#32769ead] text-white rounded-[3px] font-medium hover:bg-[#1e830f] w-full">
+            Tạo bản thiết kế mới
           </button>
         </form>
 
         <div>
           <h2 className="text-3xl pb-10 pt-6 font-semibold text-white">
-            What Will You Design Today
+            Hôm nay bạn sẽ thiết kế gì
           </h2>
         </div>
       </div>
