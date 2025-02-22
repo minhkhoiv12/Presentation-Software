@@ -55,7 +55,7 @@ const Home = () => {
           onClick={() => setShow(!show)}
           className="px-4 py-2 text-[15px] overflow-hidden text-center bg-[#32769ead] text-white rounded-[3px] font-medium hover:bg-[#1e830f] absolute top-3 right-3"
         >
-          Kích thước tùy chỉnh
+          Custom Size
         </button>
 
         <form
@@ -66,22 +66,22 @@ const Home = () => {
         >
           <div className="grid grid-cols-2 pb-4 gap-3">
             <div className="flex gap-2 justify-center items-start flex-col">
-              <label htmlFor="width">Chiều rộng</label>
+              <label htmlFor="width">Width</label>
               <input
                 onChange={inputHandle}
                 type="number"
-                name="chiều rộng"
+                name="width"
                 id="width"
                 className="w-full outline-none px-2 py-[4px] bg-[#1b1a1a] border border-[#404040] rounded-md"
               />
             </div>
 
             <div className="flex gap-2 justify-center items-start flex-col">
-              <label htmlFor="height">Chiều cao</label>
+              <label htmlFor="height">Height</label>
               <input
                 onChange={inputHandle}
                 type="number"
-                name="chiều cao"
+                name="height"
                 id="height"
                 className="w-full outline-none px-2 py-[4px] bg-[#1b1a1a] border border-[#404040] rounded-md"
               />
@@ -89,13 +89,13 @@ const Home = () => {
           </div>
 
           <button className="px-4 py-2 text-[15px] overflow-hidden text-center bg-[#32769ead] text-white rounded-[3px] font-medium hover:bg-[#1e830f] w-full">
-            Tạo bản thiết kế mới
+            Create New Design
           </button>
         </form>
 
         <div>
           <h2 className="text-3xl pb-10 pt-6 font-semibold text-white">
-            Hôm nay bạn sẽ thiết kế gì
+            What Will You Design Today
           </h2>
         </div>
       </div>

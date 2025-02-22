@@ -7,17 +7,16 @@ const auth = async (req, res, next) => {
     if (token) {
       try {
         const userInfo = await jwt.verify(token, "ariyan");
-
         req.userInfo = userInfo;
         next();
       } catch (error) {
-        return res.status(401).json({ message: "không được phép" });
+        return res.status(401).json({ message: "unauthorized" });
       }
     } else {
-      return res.status(401).json({ message: "không được phép" });
+      return res.status(401).json({ message: "unauthorized" });
     }
   } else {
-    return res.status(401).json({ message: "không được phép" });
+    return res.status(401).json({ message: "unauthorized" });
   }
 };
 module.exports = auth;
