@@ -1,6 +1,10 @@
 const { formidable } = require("formidable");
 const cloudinary = require("cloudinary").v2;
 const designModel = require("../models/designModel");
+const userImageModel = require("../models/userImageModel");
+const {
+  mongo: { ObjectId },
+} = require("mongoose");
 
 class designController {
   create_user_design = async (req, res) => {
@@ -27,6 +31,7 @@ class designController {
     }
   };
   // End Method
+
   get_user_design = async (req, res) => {
     const { design_id } = req.params;
     try {
@@ -37,6 +42,7 @@ class designController {
     }
   };
   // End Method
+
   update_user_design = async (req, res) => {
     const form = formidable({});
     const { design_id } = req.params;
@@ -75,39 +81,38 @@ class designController {
     }
   };
   // End Method
-  update_user_design = async (req, res) => {
+
+  add_user_image = async (req, res) => {
+    const { _id } = req.userInfo;
     const form = formidable({});
-    const { design_id } = req.params;
+
+    cloudinary.config({
+      cloud_name: process.env.cloud_name,
+      api_key: process.env.api_key,
+      api_secret: process.env.api_secret,
+    });
     try {
-      cloudinary.config({
-        cloud_name: process.env.cloud_name,
-        api_key: process.env.api_key,
-        api_secret: process.env.api_secret,
-      });
-      const [fields, files] = await form.parse(req);
+      const [_, files] = await form.parse(req);
       const { image } = files;
-      const components = JSON.parse(fields.design[0]).design;
+      const { url } = await cloudinary.uploader.upload(image[0].filepath);
 
-      const old_design = await designModel.findById(design_id);
+      const userImage = await userImageModel.create({
+        user_id: _id,
+        image_url: url,
+      });
+      return res.status(201).json({ userImage });
+    } catch (error) {
+      return res.status(500).json({ message: error.message });
+    }
+  };
 
-      if (old_design) {
-        if (old_design.image_url) {
-          const splitImage = old_design.image_url.split("/");
-          const imageFile = splitImage[splitImage.length - 1];
-          const imageName = imageFile.split(".")[0];
-          await cloudinary.uploader.destroy(imageName);
-        }
-        const { url } = await cloudinary.uploader.upload(image[0].filepath);
+  // End Method
 
-        await designModel.findByIdAndUpdate(design_id, {
-          image_url: url,
-          components,
-        });
-
-        return res.status(200).json({ message: "Image Save Success" });
-      } else {
-        return res.status(404).json({ message: "Design Not Found" });
-      }
+  get_user_image = async (req, res) => {
+    const { _id } = req.userInfo;
+    try {
+      const images = await userImageModel.find({ user_id: new ObjectId(_id) });
+      return res.status(200).json({ images });
     } catch (error) {
       return res.status(500).json({ message: error.message });
     }
