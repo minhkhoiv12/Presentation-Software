@@ -54,7 +54,7 @@ const Header = ({ components, design_id }) => {
   };
 
   return (
-    <div className="h-[60px] bg-[#a8adb2] w-full">
+    <div className="h-[60px] bg-[#c8cdd1] w-full">
       <div className="flex justify-between px-10 items-center text-gray-400 h-full">
         <Link to="/">
           <div className="w-[80px] h-[55px]">

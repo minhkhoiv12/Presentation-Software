@@ -22,7 +22,10 @@ class designController {
       });
       const [fields, files] = await form.parse(req);
       const { image } = files;
-      const { url } = await cloudinary.uploader.upload(image[0].filepath);
+      // const { url } = await cloudinary.uploader.upload(image[0].filepath);
+      const { url } = await cloudinary.uploader.upload(image[0].filepath, {
+        secure: true,
+      });
 
       const design = await designModel.create({
         user_id: _id,
@@ -69,7 +72,10 @@ class designController {
           const imageName = imageFile.split(".")[0];
           await cloudinary.uploader.destroy(imageName);
         }
-        const { url } = await cloudinary.uploader.upload(image[0].filepath);
+        //const { url } = await cloudinary.uploader.upload(image[0].filepath);
+        const { url } = await cloudinary.uploader.upload(image[0].filepath, {
+          secure: true,
+        });
 
         await designModel.findByIdAndUpdate(design_id, {
           image_url: url,
@@ -98,7 +104,10 @@ class designController {
     try {
       const [_, files] = await form.parse(req);
       const { image } = files;
-      const { url } = await cloudinary.uploader.upload(image[0].filepath);
+      //const { url } = await cloudinary.uploader.upload(image[0].filepath);
+      const { url } = await cloudinary.uploader.upload(image[0].filepath, {
+        secure: true,
+      });
 
       const userImage = await userImageModel.create({
         user_id: _id,
