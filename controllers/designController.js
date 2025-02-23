@@ -75,9 +75,9 @@ class designController {
           components,
         });
 
-        return res.status(200).json({ message: "Image Save Success" });
+        return res.status(200).json({ message: "Lưu hình ảnh thành công" });
       } else {
-        return res.status(404).json({ message: "Design Not Found" });
+        return res.status(404).json({ message: "Không tìm thấy bản thiết kế" });
       }
     } catch (error) {
       return res.status(500).json({ message: error.message });
@@ -136,6 +136,30 @@ class designController {
     try {
       const images = await designImageModel.find({});
       return res.status(200).json({ images });
+    } catch (error) {
+      return res.status(500).json({ message: error.message });
+    }
+  };
+  // End Method
+
+  get_user_designs = async (req, res) => {
+    const { _id } = req.userInfo;
+    try {
+      const designs = await designModel
+        .find({ user_id: new ObjectId(_id) })
+        .sort({ createdAt: -1 });
+      return res.status(200).json({ designs });
+    } catch (error) {
+      return res.status(500).json({ message: error.message });
+    }
+  };
+  // End Method
+
+  delete_user_image = async (req, res) => {
+    const { design_id } = req.params;
+    try {
+      await designModel.findByIdAndDelete(design_id);
+      return res.status(200).json({ message: "Xoá bản thiết kế thành công" });
     } catch (error) {
       return res.status(500).json({ message: error.message });
     }

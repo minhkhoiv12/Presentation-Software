@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { Link, useNavigate } from "react-router-dom";
 import { FaTrashAlt } from "react-icons/fa";
+import Item from "./Home/Item";
+import api from "../utils/api";
+import toast from "react-hot-toast";
 
 const Home = () => {
+  const [designs, setDesign] = useState([]);
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const [state, setState] = useState({
@@ -48,6 +52,29 @@ const Home = () => {
     });
   };
 
+  const get_user_design = async () => {
+    try {
+      const { data } = await api.get("/api/user-designs");
+      setDesign(data.designs);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    get_user_design();
+  }, []);
+
+  const delete_design = async (design_id) => {
+    try {
+      const { data } = await api.put(`/api/delete-user-image/${design_id}`);
+      toast.success(data.message);
+      get_user_design();
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  };
+
   return (
     <div className="pt-1 pl-3">
       <div className="w-full flex justify-center items-center h-[250px] bg-gradient-to-r from-[#4c76cf] to-[#552ab8] relative rounded-md overflow-hidden">
@@ -55,7 +82,7 @@ const Home = () => {
           onClick={() => setShow(!show)}
           className="px-4 py-2 text-[15px] overflow-hidden text-center bg-[#32769ead] text-white rounded-[3px] font-medium hover:bg-[#1e830f] absolute top-3 right-3"
         >
-          Custom Size
+          Tuỳ chỉnh kích thước
         </button>
 
         <form
@@ -66,7 +93,7 @@ const Home = () => {
         >
           <div className="grid grid-cols-2 pb-4 gap-3">
             <div className="flex gap-2 justify-center items-start flex-col">
-              <label htmlFor="width">Width</label>
+              <label htmlFor="width">Chiều rộng</label>
               <input
                 onChange={inputHandle}
                 type="number"
@@ -77,7 +104,7 @@ const Home = () => {
             </div>
 
             <div className="flex gap-2 justify-center items-start flex-col">
-              <label htmlFor="height">Height</label>
+              <label htmlFor="height">Chiều cao</label>
               <input
                 onChange={inputHandle}
                 type="number"
@@ -89,20 +116,20 @@ const Home = () => {
           </div>
 
           <button className="px-4 py-2 text-[15px] overflow-hidden text-center bg-[#32769ead] text-white rounded-[3px] font-medium hover:bg-[#1e830f] w-full">
-            Create New Design
+            Tạo bản thiết kế mới
           </button>
         </form>
 
         <div>
           <h2 className="text-3xl pb-10 pt-6 font-semibold text-white">
-            What Will You Design Today
+            Hôm nay bạn sẽ thiết kế gì
           </h2>
         </div>
       </div>
 
       <div>
         <h2 className="text-xl py-6 font-semibold text-white">
-          Your Recent Designs{" "}
+          Thiết kế gần đây của bạn{" "}
         </h2>
 
         <div>
@@ -112,19 +139,8 @@ const Home = () => {
             responsive={responsive}
             transitionDuration={500}
           >
-            {[1, 2, 3, 4, 5, 6, 7, 8].map((d, i) => (
-              <div className="relative group w-full h-[170px] px-2">
-                <Link className="w-full h-full block bg-slate-100 p-4 rounded-md">
-                  <img
-                    className="w-full h-full rounded-md overflow-hidden"
-                    src="http://localhost:5173/canva.png"
-                    alt=""
-                  />
-                </Link>
-                <div className="absolute hidden cursor-pointer top-1 right-2 text-red-500 p-2 transition-all duration-500 group-hover:block">
-                  <FaTrashAlt />
-                </div>
-              </div>
+            {designs.map((d, i) => (
+              <Item delete_design={delete_design} design={d} key={i} />
             ))}
           </Carousel>
         </div>
@@ -132,4 +148,5 @@ const Home = () => {
     </div>
   );
 };
+
 export default Home;
