@@ -2,7 +2,6 @@ const { formidable } = require("formidable");
 const cloudinary = require("cloudinary").v2;
 const designModel = require("../models/designModel");
 const userImageModel = require("../models/userImageModel");
-
 const designImageModel = require("../models/designImageModel");
 const backgroundImageModel = require("../models/backgroundImageModel");
 const templateModel = require("../models/templateModel");
@@ -10,8 +9,8 @@ const {
   mongo: { ObjectId },
 } = require("mongoose");
 
-class DesignController {
-  // Tạo mới thiết kế của người dùng
+class designController {
+  // Method tạo bản thiết kế của người dùng
   create_user_design = async (req, res) => {
     const form = formidable({});
     const { _id } = req.userInfo;
@@ -23,22 +22,26 @@ class DesignController {
       });
       const [fields, files] = await form.parse(req);
       const { image } = files;
+
+      // Upload ảnh lên Cloudinary và đảm bảo URL trả về sử dụng https
       const { url } = await cloudinary.uploader.upload(image[0].filepath, {
-        secure: true, // Đảm bảo sử dụng HTTPS
+        secure: true,
       });
+      const httpsUrl = url.replace("http://", "https://"); // Thay thế http:// thành https:// nếu cần
 
       const design = await designModel.create({
         user_id: _id,
         components: [JSON.parse(fields.design[0])],
-        image_url: url,
+        image_url: httpsUrl, // Lưu URL HTTPS vào cơ sở dữ liệu
       });
+
       return res.status(200).json({ design });
     } catch (error) {
       return res.status(500).json({ message: error.message });
     }
   };
 
-  // Lấy thiết kế của người dùng theo ID
+  // Method lấy bản thiết kế của người dùng
   get_user_design = async (req, res) => {
     const { design_id } = req.params;
     try {
@@ -49,7 +52,7 @@ class DesignController {
     }
   };
 
-  // Cập nhật thiết kế của người dùng
+  // Method cập nhật bản thiết kế của người dùng
   update_user_design = async (req, res) => {
     const form = formidable({});
     const { design_id } = req.params;
@@ -66,18 +69,22 @@ class DesignController {
       const old_design = await designModel.findById(design_id);
 
       if (old_design) {
+        // Xóa ảnh cũ khỏi Cloudinary nếu có
         if (old_design.image_url) {
           const splitImage = old_design.image_url.split("/");
           const imageFile = splitImage[splitImage.length - 1];
           const imageName = imageFile.split(".")[0];
           await cloudinary.uploader.destroy(imageName);
         }
+
+        // Upload ảnh mới lên Cloudinary và đảm bảo sử dụng https
         const { url } = await cloudinary.uploader.upload(image[0].filepath, {
-          secure: true, // Đảm bảo sử dụng HTTPS
+          secure: true,
         });
+        const httpsUrl = url.replace("http://", "https://"); // Thay thế http:// thành https:// nếu cần
 
         await designModel.findByIdAndUpdate(design_id, {
-          image_url: url,
+          image_url: httpsUrl,
           components,
         });
 
@@ -90,7 +97,7 @@ class DesignController {
     }
   };
 
-  // Thêm hình ảnh của người dùng
+  // Method thêm ảnh của người dùng
   add_user_image = async (req, res) => {
     const { _id } = req.userInfo;
     const form = formidable({});
@@ -103,21 +110,25 @@ class DesignController {
     try {
       const [_, files] = await form.parse(req);
       const { image } = files;
+
+      // Upload ảnh lên Cloudinary và đảm bảo URL trả về sử dụng https
       const { url } = await cloudinary.uploader.upload(image[0].filepath, {
-        secure: true, // Đảm bảo sử dụng HTTPS
+        secure: true,
       });
+      const httpsUrl = url.replace("http://", "https://"); // Thay thế http:// thành https:// nếu cần
 
       const userImage = await userImageModel.create({
         user_id: _id,
-        image_url: url,
+        image_url: httpsUrl, // Lưu URL HTTPS vào cơ sở dữ liệu
       });
+
       return res.status(201).json({ userImage });
     } catch (error) {
       return res.status(500).json({ message: error.message });
     }
   };
 
-  // Lấy hình ảnh của người dùng
+  // Method lấy ảnh của người dùng
   get_user_image = async (req, res) => {
     const { _id } = req.userInfo;
     try {
@@ -128,7 +139,7 @@ class DesignController {
     }
   };
 
-  // Lấy hình nền của hệ thống
+  // Method lấy ảnh background
   get_background_image = async (req, res) => {
     try {
       const images = await backgroundImageModel.find({});
@@ -138,7 +149,7 @@ class DesignController {
     }
   };
 
-  // Lấy hình ảnh thiết kế
+  // Method lấy ảnh thiết kế
   get_design_image = async (req, res) => {
     try {
       const images = await designImageModel.find({});
@@ -148,7 +159,7 @@ class DesignController {
     }
   };
 
-  // Lấy danh sách thiết kế của người dùng
+  // Method lấy tất cả các thiết kế của người dùng
   get_user_designs = async (req, res) => {
     const { _id } = req.userInfo;
     try {
@@ -161,7 +172,7 @@ class DesignController {
     }
   };
 
-  // Xóa thiết kế của người dùng
+  // Method xóa thiết kế của người dùng
   delete_user_image = async (req, res) => {
     const { design_id } = req.params;
     try {
@@ -172,7 +183,7 @@ class DesignController {
     }
   };
 
-  // Lấy các template có sẵn
+  // Method lấy tất cả các template
   get_templates = async (req, res) => {
     try {
       const templates = await templateModel.find({}).sort({ createdAt: -1 });
@@ -182,7 +193,7 @@ class DesignController {
     }
   };
 
-  // Thêm template vào thiết kế của người dùng
+  // Method thêm template vào thiết kế của người dùng
   add_user_template = async (req, res) => {
     const { template_id } = req.params;
     const { _id } = req.userInfo;
@@ -201,4 +212,4 @@ class DesignController {
   };
 }
 
-module.exports = new DesignController();
+module.exports = new designController();
