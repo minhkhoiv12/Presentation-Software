@@ -60,10 +60,10 @@ const Layout = () => {
                   />
                   <div className="flex justify-center flex-col items-start">
                     <span className="text-[#e0dddd] font-bold text-md">
-                      Minh Khôi
+                      Ariyan
                     </span>
                     <span className="text-[#e0dddd] font-bold text-md">
-                      khoitk14033@gmail.com
+                      ariyan@gmail.com
                     </span>
                   </div>
                 </div>
@@ -71,12 +71,12 @@ const Layout = () => {
                 <ul className="text-[#e0dddd] font-semibold">
                   <li>
                     <Link className="p-2 cursor-pointer">
-                      <span>Cài đặt </span>
+                      <span>Setting </span>
                     </Link>
                   </li>
                   <li>
                     <Link className="p-2 cursor-pointer">
-                      <span>Đăng xuất </span>
+                      <span>Logout </span>
                     </Link>
                   </li>
                 </ul>
@@ -96,9 +96,9 @@ const Layout = () => {
             />
             <div className="flex justify-center flex-col items-start">
               <span className="text-[#e0dddd] font-bold text-md">
-                Minh Khôi
+                Kazi Ariyan
               </span>
-              <span className="text-[#e0dddd] text-sm">Miễn phí</span>
+              <span className="text-[#e0dddd] text-sm">Free</span>
             </div>
           </div>
 
@@ -113,7 +113,7 @@ const Layout = () => {
                 <span className="text-xl">
                   <FaHome />
                 </span>
-                <span className="font-medium">Trang chủ</span>
+                <span className="font-medium">Home</span>
               </Link>
             </li>
 
@@ -127,7 +127,7 @@ const Layout = () => {
                 <span className="text-xl">
                   <FaFolderOpen />
                 </span>
-                <span className="font-medium">Dự án của bạn</span>
+                <span className="font-medium">Projects</span>
               </Link>
             </li>
 

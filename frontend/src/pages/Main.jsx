@@ -353,7 +353,7 @@ const Main = () => {
             <span className="text-2xl">
               <LuLayoutTemplate />
             </span>
-            <span className="text-xs font-medium">Thiết kế</span>
+            <span className="text-xs font-medium">Design</span>
           </div>
 
           <div
@@ -365,7 +365,7 @@ const Main = () => {
             <span className="text-2xl">
               <FaShapes />
             </span>
-            <span className="text-xs font-medium">Hình dạng</span>
+            <span className="text-xs font-medium">Shapes</span>
           </div>
 
           <div
@@ -377,7 +377,7 @@ const Main = () => {
             <span className="text-2xl">
               <FaCloudUploadAlt />
             </span>
-            <span className="text-xs font-medium">Tải lên</span>
+            <span className="text-xs font-medium">Upload</span>
           </div>
 
           <div
@@ -389,7 +389,7 @@ const Main = () => {
             <span className="text-2xl">
               <FaTextHeight />
             </span>
-            <span className="text-xs font-medium">Văn bản</span>
+            <span className="text-xs font-medium">Text</span>
           </div>
 
           <div
@@ -401,7 +401,7 @@ const Main = () => {
             <span className="text-2xl">
               <FaFolderOpen />
             </span>
-            <span className="text-xs font-medium">Dư án của bạn</span>
+            <span className="text-xs font-medium">Project</span>
           </div>
 
           <div
@@ -413,7 +413,7 @@ const Main = () => {
             <span className="text-2xl">
               <BsImages />
             </span>
-            <span className="text-xs font-medium">Hình ảnh</span>
+            <span className="text-xs font-medium">Images</span>
           </div>
 
           <div
@@ -471,7 +471,7 @@ const Main = () => {
                     onClick={() => add_text("text", "title")}
                     className="bg-[#3c3c3d] cursor-pointer font-bold p-3 text-white text-xl rounded-sm"
                   >
-                    <h2>Thêm văn bản </h2>
+                    <h2>Add A Text </h2>
                   </div>
                 </div>
               </div>
@@ -520,7 +520,7 @@ const Main = () => {
               <div className="h-full w-[250px] text-gray-300 bg-[#252627] px-3 py-2">
                 <div className="flex gap-6 flex-col items-start h-full px-3 justify-start">
                   <div className="flex gap-4 justify-start items-start mt-4">
-                    <span>Màu sắc :</span>
+                    <span>Color :</span>
                     <label
                       className="w-[30px] h-[30px] cursor-pointer rounded-sm"
                       style={{
@@ -546,7 +546,7 @@ const Main = () => {
                         className="p-[6px] bg-slate-600 text-white cursor-pointer"
                         onClick={remove_background}
                       >
-                        Xoá Background
+                        Remove Background
                       </div>
                     )}
 
@@ -650,7 +650,7 @@ const Main = () => {
                               onClick={() => setText(current_component.title)}
                               className="px-4 py-2 bg-purple-500 text-xs text-white rounded-sm"
                             >
-                              Thêm văn bản
+                              Add Text
                             </button>
                           </div>
                         </>
