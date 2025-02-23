@@ -176,7 +176,7 @@ const Index = () => {
         </div>
       </div>
 
-      <div className="bg-[#a8adb2] shadow-md">
+      <div className="bg-[#c8cdd1] shadow-md">
         <div className="w-[93%] m-auto py-3">
           <div className="flex justify-between items-center">
             <div className="w-[80px] h-[55px]">
@@ -195,7 +195,7 @@ const Index = () => {
                 }}
                 className="py-2 w-[80px] text-center bg-teal-700 text-white transition-all hover:bg-teal-500 rounded-[5px] font-medium"
               >
-                SingIn
+                Đăng nhập
               </button>
 
               <button
@@ -205,7 +205,7 @@ const Index = () => {
                 }}
                 className="py-2 w-[80px] text-center bg-purple-700 text-white transition-all hover:bg-purple-500 rounded-[5px] font-medium"
               >
-                SingUp
+                Đăng ký
               </button>
             </div>
           </div>

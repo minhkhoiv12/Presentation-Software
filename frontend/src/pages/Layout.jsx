@@ -112,7 +112,7 @@ const Layout = () => {
                 <span className="text-xl">
                   <FaFolderOpen />
                 </span>
-                <span className="font-medium">Dư án của bạn</span>
+                <span className="font-medium">Dự án của bạn</span>
               </Link>
             </li>
 
