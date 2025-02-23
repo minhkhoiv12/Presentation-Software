@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { FaHome } from "react-icons/fa";
 import { FaFolderOpen } from "react-icons/fa";
 import { LuLayoutTemplate } from "react-icons/lu";
@@ -7,6 +7,17 @@ import { LuLayoutTemplate } from "react-icons/lu";
 const Layout = () => {
   const [show, setShow] = useState(false);
   const { pathname } = useLocation();
+  const navigate = useNavigate();
+
+  const create = () => {
+    navigate("/design/create", {
+      state: {
+        type: "create",
+        width: 600,
+        height: 450,
+      },
+    });
+  };
 
   return (
     <div className="bg-[#18191b] min-h-screen w-full ">
@@ -22,7 +33,10 @@ const Layout = () => {
             </div>
 
             <div className="flex gap-4 justify-center items-center relative">
-              <button className="py-2 px-2 overflow-hidden text-center bg-[#8b3dff] text-white rounded-[3px] font-medium">
+              <button
+                onClick={create}
+                className="py-2 px-2 overflow-hidden text-center bg-[#8b3dff] text-white rounded-[3px] font-medium"
+              >
                 Create a Design
               </button>
               <div onClick={() => setShow(!show)} className=" cursor-pointer">
@@ -46,10 +60,10 @@ const Layout = () => {
                   />
                   <div className="flex justify-center flex-col items-start">
                     <span className="text-[#e0dddd] font-bold text-md">
-                      Ariyan
+                      Minh Khôi
                     </span>
                     <span className="text-[#e0dddd] font-bold text-md">
-                      ariyan@gmail.com
+                      khoitk14033@gmail.com
                     </span>
                   </div>
                 </div>
@@ -57,12 +71,12 @@ const Layout = () => {
                 <ul className="text-[#e0dddd] font-semibold">
                   <li>
                     <Link className="p-2 cursor-pointer">
-                      <span>Setting </span>
+                      <span>Cài đặt </span>
                     </Link>
                   </li>
                   <li>
                     <Link className="p-2 cursor-pointer">
-                      <span>Logout </span>
+                      <span>Đăng xuất </span>
                     </Link>
                   </li>
                 </ul>
@@ -113,7 +127,7 @@ const Layout = () => {
                 <span className="text-xl">
                   <FaFolderOpen />
                 </span>
-                <span className="font-medium">Dư án</span>
+                <span className="font-medium">Dự án của bạn</span>
               </Link>
             </li>
 
@@ -127,11 +141,12 @@ const Layout = () => {
                 <span className="text-xl">
                   <LuLayoutTemplate />
                 </span>
-                <span className="font-medium">Mẫu template</span>
+                <span className="font-medium">Templates</span>
               </Link>
             </li>
           </ul>
         </div>
+
         <div className="ml-[300px] w-[calc(100%-300px)]">
           <div className="py-4 pr-4">
             <Outlet />
