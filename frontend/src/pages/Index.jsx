@@ -179,7 +179,7 @@ const Index = () => {
       <div className="bg-[#a8adb2] shadow-md">
         <div className="w-[93%] m-auto py-3">
           <div className="flex justify-between items-center">
-            <div className="w-[80px] h-[80px]">
+            <div className="w-[80px] h-[48px]">
               <img
                 className="w-full h-full"
                 src="https://res.cloudinary.com/dd7fcqtnn/image/upload/v1739705997/img_oddaeq.png"

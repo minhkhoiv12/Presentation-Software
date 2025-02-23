@@ -28,7 +28,7 @@ const Layout = () => {
       <div className="bg-[#c8cdd1] shadow-md fixed left-0 top-0 w-full z-20">
         <div className="w-[93%] m-auto py-3">
           <div className="flex justify-between items-center">
-            <div className="w-[80px] h-[80px]">
+            <div className="w-[80px] h-[48px]">
               <img
                 className="w-full h-full"
                 src="https://res.cloudinary.com/dd7fcqtnn/image/upload/v1739705997/img_oddaeq.png"
