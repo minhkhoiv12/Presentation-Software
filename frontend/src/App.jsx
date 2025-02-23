@@ -1,4 +1,8 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  Navigate,
+  RouterProvider,
+} from "react-router-dom";
 import Index from "./pages/Index";
 import Layout from "./pages/Layout";
 import Home from "./components/Home";
@@ -7,6 +11,7 @@ import Projects from "./components/Projects";
 import CreateDesign from "./components/CreateDesign";
 import Main from "./pages/Main";
 import { token_decode } from "./utils/index";
+
 const userInfo = token_decode(localStorage.getItem("canva_token"));
 
 const router = createBrowserRouter([
@@ -30,11 +35,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/design/create",
-    element: <CreateDesign />,
+    element: userInfo ? <CreateDesign /> : <Navigate to="/" />,
   },
   {
     path: "/design/:design_id/edit",
-    element: <Main />,
+    element: userInfo ? <Main /> : <Navigate to="/" />,
   },
 ]);
 

@@ -3,6 +3,7 @@ import { RxCross2 } from "react-icons/rx";
 import { BiLogoGmail } from "react-icons/bi";
 import { FaFacebook } from "react-icons/fa";
 import api from "../utils/api";
+import toast from "react-hot-toast";
 
 const Index = () => {
   const [type, setType] = useState("");
@@ -28,7 +29,6 @@ const Index = () => {
     try {
       setLoader(true);
       const { data } = await api.post("/api/user-register", state);
-
       setLoader(false);
       localStorage.setItem("canva_token", data.token);
       setState({
@@ -39,13 +39,15 @@ const Index = () => {
       window.location.href = "/";
     } catch (error) {
       setLoader(false);
-      console.log(error.response);
+
+      toast.error(error.response.data.message);
     }
   };
   //end method
 
   const user_login = async (e) => {
     e.preventDefault();
+
     try {
       setLoader(true);
       const { data } = await api.post("/api/user-login", state);
@@ -60,10 +62,12 @@ const Index = () => {
       window.location.href = "/";
     } catch (error) {
       setLoader(false);
-      console.log(error.response);
+
+      toast.error(error.response.data.message);
     }
   };
   //end method
+
   return (
     <div className="bg-[#18191b] min-h-screen w-full ">
       <div
@@ -114,7 +118,7 @@ const Index = () => {
                   disabled={loader}
                   className="px-3 py-2 rounded-md bg-purple-500 w-full outline-none hover:bg-purple-600 text-white"
                 >
-                  {loader ? "loading.." : "Sign In"}
+                  {loader ? "loading.." : "Đăng nhập"}
                 </button>
               </div>
             </form>
@@ -128,7 +132,7 @@ const Index = () => {
                   type="text"
                   name="name"
                   id="name"
-                  placeholder="Họ tên"
+                  placeholder="Tên"
                   value={state.name}
                   className="px-3 py-2 rounded-md border outline-none border-[#5c5c5e] focus:border-purple-500 bg-transparent"
                 />
@@ -172,13 +176,13 @@ const Index = () => {
         </div>
       </div>
 
-      <div className="bg-[#212223] shadow-md">
+      <div className="bg-[#a8adb2] shadow-md">
         <div className="w-[93%] m-auto py-3">
           <div className="flex justify-between items-center">
-            <div className="w-[80px] h-[48px]">
+            <div className="w-[80px] h-[80px]">
               <img
                 className="w-full h-full"
-                src="https://static.canva.com/web/images/12487a1e0770d29351bd4ce4f87ec8fe.svg"
+                src="https://res.cloudinary.com/dd7fcqtnn/image/upload/v1739705997/img_oddaeq.png"
                 alt=""
               />
             </div>
@@ -191,7 +195,7 @@ const Index = () => {
                 }}
                 className="py-2 w-[80px] text-center bg-teal-700 text-white transition-all hover:bg-teal-500 rounded-[5px] font-medium"
               >
-                Đăng nhập
+                SingIn
               </button>
 
               <button
@@ -201,7 +205,7 @@ const Index = () => {
                 }}
                 className="py-2 w-[80px] text-center bg-purple-700 text-white transition-all hover:bg-purple-500 rounded-[5px] font-medium"
               >
-                Đăng ký
+                SingUp
               </button>
             </div>
           </div>
@@ -214,7 +218,7 @@ const Index = () => {
             Hôm nay bạn sẽ thiết kế gì?
           </h2>
           <span className="text-[#aca9a9] text-2xl font-medium">
-            Pixora makes it easy to create and share professional designs.
+            Pixora giúp bạn dễ dàng tạo và chia sẻ các thiết kế chuyên nghiệp.
           </span>
           <button
             onClick={() => {
@@ -230,5 +234,4 @@ const Index = () => {
     </div>
   );
 };
-
 export default Index;
