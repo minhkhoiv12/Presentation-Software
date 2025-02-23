@@ -76,9 +76,9 @@ class designController {
           components,
         });
 
-        return res.status(200).json({ message: "Image Save Success" });
+        return res.status(200).json({ message: "Lưu thành công" });
       } else {
-        return res.status(404).json({ message: "Design Not Found" });
+        return res.status(404).json({ message: "Không tìm thấy bản thiết kế" });
       }
     } catch (error) {
       return res.status(500).json({ message: error.message });
@@ -160,7 +160,7 @@ class designController {
     const { design_id } = req.params;
     try {
       await designModel.findByIdAndDelete(design_id);
-      return res.status(200).json({ message: "Design Delete Succees" });
+      return res.status(200).json({ message: "Xoá bản thiết kế thành công" });
     } catch (error) {
       return res.status(500).json({ message: error.message });
     }

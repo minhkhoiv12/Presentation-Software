@@ -57,7 +57,7 @@ const Header = ({ components, design_id }) => {
     <div className="h-[60px] bg-[#a8adb2] w-full">
       <div className="flex justify-between px-10 items-center text-gray-400 h-full">
         <Link to="/">
-          <div className="w-[80px] h-[48px]">
+          <div className="w-[80px] h-[55px]">
             <img
               className="w-full h-full"
               src="https://res.cloudinary.com/dd7fcqtnn/image/upload/v1739705997/img_oddaeq.png"

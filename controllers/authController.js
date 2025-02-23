@@ -32,7 +32,7 @@ class authController {
       }
     } catch (error) {
       console.log(error.message);
-      return res.status(500).json({ message: "Internal Server Error" });
+      return res.status(500).json({ message: "Lỗi máy chủ" });
     }
   };
   // End Method
