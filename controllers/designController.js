@@ -2,6 +2,9 @@ const { formidable } = require("formidable");
 const cloudinary = require("cloudinary").v2;
 const designModel = require("../models/designModel");
 const userImageModel = require("../models/userImageModel");
+
+const designImageModel = require("../models/designImageModel");
+const backgroundImageModel = require("../models/backgroundImageModel");
 const {
   mongo: { ObjectId },
 } = require("mongoose");
@@ -112,6 +115,26 @@ class designController {
     const { _id } = req.userInfo;
     try {
       const images = await userImageModel.find({ user_id: new ObjectId(_id) });
+      return res.status(200).json({ images });
+    } catch (error) {
+      return res.status(500).json({ message: error.message });
+    }
+  };
+  // End Method
+
+  get_background_image = async (req, res) => {
+    try {
+      const images = await backgroundImageModel.find({});
+      return res.status(200).json({ images });
+    } catch (error) {
+      return res.status(500).json({ message: error.message });
+    }
+  };
+  // End Method
+
+  get_design_image = async (req, res) => {
+    try {
+      const images = await designImageModel.find({});
       return res.status(200).json({ images });
     } catch (error) {
       return res.status(500).json({ message: error.message });

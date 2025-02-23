@@ -15,6 +15,8 @@ import Image from "../components/Image";
 import CreateComponent from "../components/CreateComponent";
 import api from "../utils/api";
 import { useParams } from "react-router-dom";
+import BackgroundImages from "../components/BackgroundImages";
+import InitialImage from "../components/InitialImage";
 
 const Main = () => {
   const { design_id } = useParams();
@@ -477,28 +479,12 @@ const Main = () => {
             {state === "project" && <Projects />}
             {state === "initImage" && (
               <div className="h-[88vh] overflow-x-auto flex justify-start items-start scrollbar-hide">
-                <Image add_image={add_image} />
+                <InitialImage add_image={add_image} />
               </div>
             )}
             {state === "background" && (
               <div className="h-[88vh] overflow-x-auto flex justify-start items-start scrollbar-hide">
-                <div className="grid grid-cols-2 gap-2">
-                  {[1, 2, 3, 4, 5, 6].map((img, i) => (
-                    <div
-                      onClick={() =>
-                        setImage("http://localhost:5173/canva.png")
-                      }
-                      key={i}
-                      className="w-full h-[90px] overflow-hidden rounded-sm cursor-pointer"
-                    >
-                      <img
-                        className="w-full h-full object-fill"
-                        src="http://localhost:5173/canva.png"
-                        alt=""
-                      />
-                    </div>
-                  ))}
-                </div>
+                <BackgroundImages type="background" setImage={setImage} />
               </div>
             )}
           </div>
@@ -565,7 +551,7 @@ const Main = () => {
                   {current_component.name !== "main_frame" && (
                     <div className="flex gap-6 flex-col">
                       <div className="flex gap-1 justify-start items-start">
-                        <span className="text-md w-[70px]">độ mờ</span>
+                        <span className="text-md w-[70px]">Opacity</span>
                         <input
                           onChange={opacityHandle}
                           className="w-[70px] border border-gray-700 bg-transparent outline-none px-2 rounded-md"
@@ -590,7 +576,7 @@ const Main = () => {
 
                       {current_component.name === "image" && (
                         <div className="flex gap-1 justify-start items-start">
-                          <span className="text-md w-[70px]">bo góc</span>
+                          <span className="text-md w-[70px]">Radius</span>
                           <input
                             onChange={(e) =>
                               setRadius(parseInt(e.target.value))
@@ -606,7 +592,7 @@ const Main = () => {
                       {current_component.name === "text" && (
                         <>
                           <div className="flex gap-1 justify-start items-start">
-                            <span className="text-md w-[70px]">đệm : </span>
+                            <span className="text-md w-[70px]">Padding : </span>
                             <input
                               onChange={(e) =>
                                 setPadding(parseInt(e.target.value))
@@ -619,7 +605,7 @@ const Main = () => {
                           </div>
 
                           <div className="flex gap-1 justify-start items-start">
-                            <span className="text-md w-[70px]">cỡ chữ</span>
+                            <span className="text-md w-[70px]">Font Size</span>
                             <input
                               onChange={(e) =>
                                 setFont(parseInt(e.target.value))
@@ -632,9 +618,7 @@ const Main = () => {
                           </div>
 
                           <div className="flex gap-1 justify-start items-start">
-                            <span className="text-md w-[70px]">
-                              độ đậm của chữ :{" "}
-                            </span>
+                            <span className="text-md w-[70px]">Weight : </span>
                             <input
                               onChange={(e) =>
                                 setWeight(parseInt(e.target.value))
