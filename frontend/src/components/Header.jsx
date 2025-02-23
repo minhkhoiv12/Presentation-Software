@@ -54,13 +54,16 @@ const Header = ({ components, design_id }) => {
   };
 
   return (
-    <div className="h-[60px] bg-gradient-to-r from-[#212122] via-[#27282b] to-[#2a2b2c] w-full">
+    <div className="h-[60px] bg-[#a8adb2] w-full">
       <div className="flex justify-between px-10 items-center text-gray-400 h-full">
         <Link to="/">
-          <img
-            src="https://res.cloudinary.com/dd7fcqtnn/image/upload/v1739705997/img_oddaeq.png"
-            alt=""
-          />
+          <div className="w-[80px] h-[48px]">
+            <img
+              className="w-full h-full"
+              src="https://res.cloudinary.com/dd7fcqtnn/image/upload/v1739705997/img_oddaeq.png"
+              alt=""
+            />
+          </div>
         </Link>
         <span className="text-xl">Pixora</span>
 
