@@ -10,6 +10,9 @@ This project is designed to empower users with a seamless and intuitive platform
 - **Authentication:** Middleware for protected routes, User Register/Login
 - **Cloud Storage:** Cloudinary for image uploads
 
+## Test Account
+- ✉️ User Account: user@gmail.com | 🔑 Password: 123456789
+
 ## 🔥 Features
 - **User Authentication**: Register and Login functionality with protected routes.
 - **Design Tools**:
